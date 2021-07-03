@@ -566,7 +566,7 @@ int CondestC(iluptr lu, FILE *fp ){
   for(i = 0; i < n; i++ ) 
     y[i] = 1.0;
   
-  lumsolC(y, x, lu );
+  zlumsolC(y, x, lu );
   for(i = 0; i < n; i++ ) {
     norm = max(norm, cabs(x[i]) );
   }
@@ -698,3 +698,42 @@ int std_drop(int lfil, int i, double tolL, double tolU, double toldiag, int milu
   return 0;
 }
 
+/*----------------------------------------------------------------------
+ *    performs a forward followed by a backward solve
+ *    for LU matrix as produced by iluc
+ *    y  = right-hand-side
+ *    x  = solution on return
+ *    lu = LU matrix as produced by iluc.
+ *--------------------------------------------------------------------*/
+
+int zlumsolC(complex double *y, complex double *x, iluptr lu )
+{
+    int n = lu->n, i, j, nzcount, nnzL, *ia, *ja;
+    complex double *D = lu->D, *ma;
+    csptr L = lu->L;
+    csptr U = lu->U;
+
+    for (i = 0; i < n; i++)
+        x[i] = y[i];
+    /*-------------------- L solve */
+    for (i = 0; i < n; i++) {
+        nnzL = L->nzcount[i];
+        ia = L->ja[i];
+        ma = L->ma[i];
+        for (j = 0; j < nnzL; j++) {
+            x[ia[j]] -= ma[j] * x[i];
+        }
+    }
+    /*-------------------- U solve */
+    for (i = n - 1; i >= 0; i--) {
+        nzcount = U->nzcount[i];
+        ja = U->ja[i];
+        ma = U->ma[i];
+        for (j = 0; j < nzcount; j++) {
+            x[i] -= ma[j] * x[ja[j]];
+        }
+        x[i] *= D[i];
+    }
+
+    return 0;
+}
