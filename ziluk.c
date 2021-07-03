@@ -6,7 +6,7 @@
 #include "./LIB/zprotos.h"
 #include "./LIB/zdefs.h"
 
-void *memcpy(void*, void*, int);
+void *memcpy(void*, const void*, long unsigned int);
 
 /*--------------------protos */
 static int lofC( int lofM, csptr csmat, iluptr lu, FILE *fp ); 

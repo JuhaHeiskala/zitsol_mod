@@ -27,7 +27,7 @@ int zprtC(csptr Amat, int io)
   char fname[5]= "MAT"; 
   char ext[30] = "00";
   int ifmt = 6, job = 3;
-/*-----------------------------------------------------------------------*/
+  /*-----------------------------------------------------------------------*/
   n   = Amat->n; 
   for (i=nnz=0; i<n; i++) 
     nnz += Amat->nzcount[i] ;
@@ -35,7 +35,7 @@ int zprtC(csptr Amat, int io)
   aa  = (complex double *)malloc( sizeof(complex double) * nnz );
   ia  = (int *)malloc( sizeof(int) * (n+1));
   rhs = (complex double *)malloc( sizeof(complex double) * n );
-/*-------------------- convert into a, ja, ia matrix                     */
+  /*-------------------- convert into a, ja, ia matrix                     */
   ko = 0;
   ia[0] = ko+1; 
   for (i=0; i<n; i++) {
@@ -49,7 +49,7 @@ int zprtC(csptr Amat, int io)
     ia[i+1] = ko+1;
  
   }
-/*-------------------- filename+string operations                        */
+  /*-------------------- filename+string operations                        */
   /*  itoa(io,ext,10);*/
   sprintf(ext,"%02d",io);
   strncat(fname,ext,2); 
@@ -60,13 +60,13 @@ int zprtC(csptr Amat, int io)
   for( i = strlen(title); i < 72; i++ ) title[i] = ' ';
   title[72] = 0;
   /* strcpy(key,"ARMSxx"); 
-  for( i = strlen(key); i < 8; i++ ) key[i] = ' ';
-  key[8] = 0;
+     for( i = strlen(key); i < 8; i++ ) key[i] = ' ';
+     key[8] = 0;
   */
-/*-------------------- do actual copying                               */
+  /*-------------------- do actual copying                               */
   zprtmtc( &n, &n, aa, ja, ia, rhs, guesol, title,
-          key, type, &ifmt, &job, fname );
-/*-------------------- done                                           */
+	   key, type, &ifmt, &job, fname );
+  /*-------------------- done                                           */
   free(aa); 
   free (ia);
   free(ja);

@@ -4,6 +4,8 @@
 #include <math.h>
 #include <complex.h>
 #include "zheads.h"
+#include "zprotos.h"
+
 #ifdef ILUTIME
 void msg_timer_clear(int *);
 void msg_timer_start(int *);
