@@ -33,7 +33,7 @@ static csptr U;
 int update_diagonals(iluptr lu, int i ); 
 int comp(const void *fst, const void *snd ); 
 int std_drop(int lfil, int i, double tolL, double tolU, double toldiag, int milu) ;
-int lumsolC(complex double *y, complex double *x, iluptr lu );
+int zlumsolC(complex double *y, complex double *x, iluptr lu );
 /*-------------------- end protos */
 
 int zilutc(iluptr mt, iluptr lu, int lfil, double tol, int drop, int milu, FILE *fp )
